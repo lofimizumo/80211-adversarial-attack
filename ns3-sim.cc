@@ -144,7 +144,6 @@ SendPacket(Ptr<WifiMac> mac)
     mac->GetAttribute("BE_Txop", ptr);
     Ptr<QosTxop> edca;
     edca = ptr.Get<QosTxop>();
-    // std::cout << "Backoff Slots (Victim): " << edca->GetCw(0) << std::endl;
     ns3::Ptr<ns3::Packet> packet = ns3::Create<ns3::Packet>(10); // 1000 bytes dummy packet
     ns3::Mac48Address("00:00:00:00:00:01");
     ns3::Mac48Address destAddress = ns3::Mac48Address("00:00:00:00:00:01");
@@ -169,7 +168,6 @@ StartJamming(Ptr<WifiMac> jammerMac, Ptr<WifiPhy> jammerPhy)
     edca = ptr.Get<QosTxop>();
     ns3::Ptr<ns3::Packet> packet = ns3::Create<ns3::Packet>(100); // 1000 bytes dummy packet
     ns3::WifiMacHeader header;
-    header.SetAddr1(ns3::Mac48Address("ff:ff:ff:ff:ff:ff"));
     ns3::Mac48Address destAddress = header.GetAddr1();
     jammerMac->Enqueue(packet, destAddress);
     packet_received_count = 0;
@@ -202,6 +200,7 @@ PacketMonitor::RxDrop(std::string context, Ptr<const Packet> packet, WifiPhyRxfa
 {
     // std::cout << "Packet dropped at: " << Simulator::Now().GetSeconds() << "Reason: " << reason
             //   << std::endl;
+            
 }
 
 void
@@ -209,6 +208,7 @@ PacketMonitor::RxEnd(std::string context, Ptr<const Packet> packet)
 {
     // std::cout << "Packet received at: " << Simulator::Now().GetSeconds() << "Size: "
     //           << packet->GetSize() << std::endl;
+
 }
 
 void PacketMonitor::UpdateThroughput()
